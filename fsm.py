@@ -48,7 +48,7 @@ class FarmScheduler():
         self.current_state = self.current_state.execute(self.current_schedule)                                                                     
         if isinstance(self.current_state, IdleState) and self.current_schedule['next-cycle'] <= 0:                                                 
             self.schedules.pop(0)                                                                                                                  
-            print("Cycle complete, checking for new schedules.")                                                                                   
+            print(" >> Cycle complete, checking for new schedules.")                                                                                   
             self.current_schedule = None                                                                                                           
             return False                                                                                                                                 
                                                                                                                                                        
@@ -88,12 +88,12 @@ class State:
 class IdleState(State):                                                                                                                                
     def execute(self, schedule):                                                                                                                       
         if self.debug:                                                                                                                                 
-            print("IDLE STATE")                                                                                                                        
+            print(">> IDLE STATE")                                                                                                                        
         if schedule['next-cycle'] > 0:                                                                                                                 
             schedule['next-cycle'] = schedule['next-cycle'] -1                                                                                         
             return Mixer1State(debug=self.debug)                                                                                                       
         else:                                                                                                                                          
-            print("FINISHED !!!")                                                                                                                      
+            print(">> FINISHED !!!")                                                                                                                      
             return self                                                                                                                                
                                                                                                                                                        
 class Mixer1State(State):                                                                                                                              
@@ -103,7 +103,7 @@ class Mixer1State(State):
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(MIXER1,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
-            print("MIXER1 STATE - Complete")                                                                                                           
+            print(">> MIXER1 STATE - Complete")                                                                                                           
         return Mixer2State(debug=self.debug)                                                                                                           
                                                                                                                                                        
 class Mixer2State(State):                                                                                                                              
@@ -113,7 +113,7 @@ class Mixer2State(State):
         self.wait_for_timer(0)
         PHYSIC.setActuators(MIXER2,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
-            print("MIXER2 STATE - Complete")                                                                                                           
+            print(">> MIXER2 STATE - Complete")                                                                                                           
         return Mixer3State(debug=self.debug)                                                                                                           
                                                                                                                                                        
 class Mixer3State(State):                                                                                                                              
@@ -123,39 +123,51 @@ class Mixer3State(State):
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(MIXER3,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
-            print("MIXER3 STATE - Complete")                                                                                                           
+            print(">> MIXER3 STATE - Complete")                                                                                                           
         return PumpInState(debug=self.debug)                                                                                                           
 
-class Selector1State(State):                                                                                                                              
+class Selector1On(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
         PHYSIC.setActuators(AREA1,"ON")                                                                                                               
-        setTimer(0, int(schedule['selector1']))                                                                                                           
+        setTimer(0, int(schedule['selector1']))                                                                                                                                                                                                                    
+        return Selector2On(debug=self.debug)
+    
+class Selector1Off(State):                                                                                                                              
+    def execute(self, schedule):                                                                                                                                                                                                                               
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(AREA1,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
-            print("SELECTOR1 STATE - Complete")                                                                                                           
-        return Selector2State(debug=self.debug)
-
-class Selector2State(State):                                                                                                                              
+            print(">> SELECTOR1 STATE - Complete")                                                                                                           
+        return Selector2Off(debug=self.debug)
+    
+class Selector2On(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
         PHYSIC.setActuators(AREA2,"ON")                                                                                                               
-        setTimer(0, int(schedule['selector2']))                                                                                                           
+        setTimer(0, int(schedule['selector2']))                                                                                                                                                                                                                   
+        return Selector3On(debug=self.debug)
+
+class Selector2Off(State):                                                                                                                              
+    def execute(self, schedule):                                                                                                                                                                                                                                 
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(AREA2,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
-            print("SELECTOR2 STATE - Complete")                                                                                                           
-        return Selector3State(debug=self.debug)
-
-class Selector3State(State):                                                                                                                              
+            print(">> SELECTOR2 STATE - Complete")                                                                                                           
+        return Selector3Off(debug=self.debug)
+    
+class Selector3On(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
         PHYSIC.setActuators(AREA3,"ON")                                                                                                               
-        setTimer(0, int(schedule['selector3']))                                                                                                           
+        setTimer(0, int(schedule['selector3']))                                                                                                                                                                                                                     
+        return Selector3Off(debug=self.debug)
+    
+class Selector3Off(State):                                                                                                                              
+    def execute(self, schedule):                                                                                                                                                                                                                               
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(AREA3,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
-            print("SELECTOR3 STATE - Complete")                                                                                                           
-        return PumpOutState(debug=self.debug)
-                                                                                                                                                     
+            print(">> SELECTOR3 STATE - Complete")                                                                                                           
+        return IdleState(debug=self.debug)
+                                                                                                                                                        
 class PumpInState(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
         PHYSIC.setActuators(PUMPIN,"ON")                                                                                                               
@@ -163,19 +175,22 @@ class PumpInState(State):
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(PUMPIN,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
-            print("PUMP IN STATE - Complete")                                                                                                          
-        return Selector1State(debug=self.debug)                                                                                                          
+            print(">> PUMP IN STATE - Complete")                                                                                                          
+        return Selector1On(debug=self.debug)                                                                                                          
                                                                                                                                                        
-class PumpOutState(State):                                                                                                                             
+class PumpOutOn(State):                                                                                                                             
     def execute(self, schedule):                                                                                                                       
         PHYSIC.setActuators(PUMPOUT,"ON")                                                                                                              
-        setTimer(0, int(schedule['pump-out']))                                                                                                         
+        setTimer(0, int(schedule['pump-out']))                                                                                                                                                                                                               
+        return PumpOutOff(debug=self.debug)
+                                                                                                                 
+class PumpOutOff(State):                                                                                                                             
+    def execute(self, schedule):                                                                                                                                                                                                                              
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(PUMPOUT,"OFF")                                                                                                             
         if self.debug:                                                                                                                                 
-            print("PUMP OUT STATE - Complete")                                                                                                         
-        return IdleState(debug=self.debug)                                                                                                             
-                                                                                                                                                       
+            print(">> PUMP OUT STATE - Complete")                                                                                                         
+        return Selector1Off(debug=self.debug)                                                                                                                                                         
                                                                                                                                                        
                                                                                                                                                        
 def convert_schedule_json_to_dict(json_data):                                                                                                          

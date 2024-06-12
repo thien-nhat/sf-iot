@@ -86,7 +86,6 @@ def main_loop():
         if state["active"] == 1:                                                                                                                       
             sched_active.append(state.copy())                                                                                                          
             print("Activated new schedule!")                                                                                                           
-            print(state)                                                                                                                               
             state["active"] = 0  # Reset the active flag  
                                                                                                                                                                                                                                                
         for schedule in sched_active:                                                                                                                  
