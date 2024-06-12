@@ -139,6 +139,7 @@ class Selector1Off(State):
         if self.debug:                                                                                                                                 
             print(">> SELECTOR1 STATE - Complete")                                                                                                           
         self.selector_off_counter += 1
+        print("Selector 1 off counter: ", self.selector_off_counter)
         if self.selector_off_counter >= 2:
             return PumpOutOff(debug=self.debug)
         else:
@@ -157,6 +158,7 @@ class Selector2Off(State):
         if self.debug:                                                                                                                                 
             print(">> SELECTOR2 STATE - Complete")                                                                                                           
         self.selector_off_counter += 1
+        print("Selector 2 off counter: ", self.selector_off_counter)
         if self.selector_off_counter >= 2:
             return PumpOutOff(debug=self.debug)
         else:
@@ -175,10 +177,11 @@ class Selector3Off(State):
         if self.debug:                                                                                                                                 
             print(">> SELECTOR3 STATE - Complete")                                                                                                           
         self.selector_off_counter += 1
-        if self.selector_off_counter >= 2:
-            return PumpOutOff(debug=self.debug)
-        else:
-            return IdleState(debug=self.debug)
+        print("Selector 3 off counter: ", self.selector_off_counter)
+        # if self.selector_off_counter >= 2:
+        #     return PumpOutOff(debug=self.debug)
+        # else:
+        return IdleState(debug=self.debug)
                                                                                                                                                         
 class PumpInState(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
