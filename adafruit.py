@@ -22,7 +22,9 @@ class Adafruit_MQTT:
     "mixer2",                                                                                                                                          
     "mixer3",                                                                                                                                          
     "next-cycle",                                                                                                                                      
-    "selector",                                                                                                                                        
+    "selector1",
+    "selector2",
+    "selector3",                                                                                                                                        
     "pump-in",                                                                                                                                         
     "pump-out",                                                                                                                                        
     "active"                                                                                                                                           
