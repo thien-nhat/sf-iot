@@ -30,7 +30,9 @@ def get_time_difference_in_minutes(schedule):
     # Calculate the difference between the current time and the time-start value
     time_difference = time_start - current_time
     return time_difference.total_seconds() / 60
-                                                                                                                                                       
+
+selector_off_counter = 0   
+
 class FarmScheduler():                                                                                                                                 
     def __init__(self, debug=True):                                                                                                                    
         self.debug = debug                                                                                                                             
@@ -75,7 +77,7 @@ class FarmScheduler():
 class State:                                                                                                                                           
     def __init__(self, debug=True):                                                                                                                    
         self.debug = debug
-        self.selector_off_counter = 0                                                                                                                             
+                                                                                                                                  
                                                                                                                                                        
     def execute(self, schedule):                                                                                                                       
         raise NotImplementedError                                                                                                                      
@@ -133,14 +135,14 @@ class Selector1On(State):
         return Selector2On(debug=self.debug)
     
 class Selector1Off(State):                                                                                                                              
-    def execute(self, schedule):                                                                                                                                                                                                                               
+    def execute(self, schedule):
+        global selector_off_counter                                                                                                                                                                                                                               
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(AREA1,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
             print(">> SELECTOR1 STATE - Complete")                                                                                                           
-        self.selector_off_counter += 1
-        print("Selector 1 off counter: ", self.selector_off_counter)
-        if self.selector_off_counter >= 2:
+        selector_off_counter += 1
+        if selector_off_counter >= 2:
             return PumpOutOff(debug=self.debug)
         else:
             return Selector2Off(debug=self.debug)
@@ -152,14 +154,14 @@ class Selector2On(State):
         return Selector3On(debug=self.debug)
 
 class Selector2Off(State):                                                                                                                              
-    def execute(self, schedule):                                                                                                                                                                                                                                 
+    def execute(self, schedule):
+        global selector_off_counter                                                                                                                                                                                                                                 
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(AREA2,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
             print(">> SELECTOR2 STATE - Complete")                                                                                                           
-        self.selector_off_counter += 1
-        print("Selector 2 off counter: ", self.selector_off_counter)
-        if self.selector_off_counter >= 2:
+        selector_off_counter += 1
+        if selector_off_counter >= 2:
             return PumpOutOff(debug=self.debug)
         else:
             return Selector3Off(debug=self.debug)
@@ -171,13 +173,13 @@ class Selector3On(State):
         return PumpOutOn(debug=self.debug)
     
 class Selector3Off(State):                                                                                                                              
-    def execute(self, schedule):                                                                                                                                                                                                                               
+    def execute(self, schedule):
+        global selector_off_counter                                                                                                                                                                                                                               
         self.wait_for_timer(0)                                                                                                                         
         PHYSIC.setActuators(AREA3,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
             print(">> SELECTOR3 STATE - Complete")                                                                                                           
-        self.selector_off_counter += 1
-        print("Selector 3 off counter: ", self.selector_off_counter)
+        selector_off_counter = 0
         # if self.selector_off_counter >= 2:
         #     return PumpOutOff(debug=self.debug)
         # else:
