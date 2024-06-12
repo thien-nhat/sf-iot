@@ -94,15 +94,12 @@ def main_loop():
             print("Activated new schedule!")                                                                                                           
             print(state)                                                                                                                               
             state["active"] = 0  # Reset the active flag  
-                                                                                                     
-        print("# Print the sched_active arr")
-        for schedule in sched_active:
-            print("Schedule:", schedule)                                                                                                                                           
+                                                                                                                                                                                                                                               
         for schedule in sched_active:                                                                                                                  
-            start_sched.add_schedule(schedule)                                                                                                         
-            start_sched.run()                                                                                                                          
-            sched_active.remove(schedule)                                                                                                              
-                                                                                                                                                       
+            start_sched.add_schedule(schedule)                                                                                                                                                                                                                                   
+            sched_active.remove(schedule) 
+                                                                                                                     
+        start_sched.run()                                                                                                                                               
         time.sleep(1)                                                                                                                                  
                                                                                                                                                        
 def publish_data(client):                                                                                                                              
