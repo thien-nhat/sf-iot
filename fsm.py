@@ -158,7 +158,7 @@ class Selector3On(State):
     def execute(self, schedule):                                                                                                                       
         PHYSIC.setActuators(AREA3,"ON")                                                                                                               
         setTimer(0, int(schedule['selector3']))                                                                                                                                                                                                                     
-        return Selector3Off(debug=self.debug)
+        return PumpOutOn(debug=self.debug)
     
 class Selector3Off(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                                                                                                                               
