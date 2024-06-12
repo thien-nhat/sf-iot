@@ -43,7 +43,6 @@ class Adafruit_MQTT:
         print("Disconnected... Trying to reconnect.")                                                                                                  
         self.client.reconnect()                                                                                                                        
     def message(self, client, feed_id, payload):
-        print(f"Received message: {feed_id} - {payload}")                                                                                                       
         try:                                                                                                                                           
             # Check if payload is a JSON string                                                                                                        
             if payload.startswith("{") and payload.endswith("}"):                                                                                      

@@ -39,7 +39,7 @@ class FarmScheduler():
         self.current_state = IdleState(debug=self.debug)                                                                                               
                                                                                                                                                        
     def run(self):                                                                                                                                     
-        self.print_schedules()                                                                                                                  
+        # self.print_schedules()                                                                                                                  
         if not self.current_schedule:                                                                                                              
             self.current_schedule = self.check_schedule()                                                                                          
             if not self.current_schedule:                                                                                                          
@@ -59,13 +59,10 @@ class FarmScheduler():
     def add_schedule(self, schedule):                                                                                                                  
         self.schedules.append(schedule)
         current_time = datetime.now()
-        print("Current time:", current_time)
         self.schedules.sort(key=get_time_difference_in_minutes)
         self.schedules = remove_duplicate_schedules(self.schedules)
-        print("New schedule added:", schedule)
-        print("# Print the sorted sched_active taht already in FSM")
-        for schedule in self.schedules:
-            print("Schedule:", schedule)                                                                                                                
+        # print("New schedule added:", schedule)
+        self.print_schedules()                                                                                                             
                                                                                                                                                        
     def check_schedule(self):                                                                                                                          
         # Find a schedule with start time in the future                                                                                                
@@ -112,10 +109,8 @@ class Mixer1State(State):
 class Mixer2State(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
         PHYSIC.setActuators(MIXER2,"ON")
-        print("MIXER2 ON in Mixer2State")                                                                                                               
         setTimer(0, int(schedule['mixer2']))                                                                                                           
         self.wait_for_timer(0)
-        print("MIXER2 OFF in Mixer2State")                                                                                                                                                                                                                                        
         PHYSIC.setActuators(MIXER2,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
             print("MIXER2 STATE - Complete")                                                                                                           
