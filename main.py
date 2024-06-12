@@ -69,9 +69,7 @@ def data_callback(feed_id, payload):
                 sched_active.sort(key=get_time_difference_in_minutes)
                 sched_active = remove_duplicate_schedules(sched_active)
                 print("New schedule added:", new_schedule)
-                print("# Print the sorted sched_active")
-                for schedule in sched_active:
-                    print("Schedule:", schedule)                                                                                          
+                                                                                                         
             else:                                                                                                                                      
                 print("Invalid schedule format:", new_schedule)                                                                                        
         elif key in state:                                                                                                                             
@@ -91,8 +89,11 @@ def main_loop():
             sched_active.append(state.copy())                                                                                                          
             print("Activated new schedule!")                                                                                                           
             print(state)                                                                                                                               
-            state["active"] = 0  # Reset the active flag                                                                                               
-                                                                                                                                                       
+            state["active"] = 0  # Reset the active flag  
+                                                                                                     
+        print("# Print the RELOAD sched_active")
+        for schedule in sched_active:
+            print("Schedule:", schedule)                                                                                                                                              
         for schedule in sched_active:                                                                                                                  
             start_sched.add_schedule(schedule)                                                                                                         
             start_sched.run()                                                                                                                          
