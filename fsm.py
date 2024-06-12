@@ -37,7 +37,6 @@ class FarmScheduler():
         self.schedules = []                                                                                                                            
         self.current_schedule = None                                                                                                                   
         self.current_state = IdleState(debug=self.debug)                                                                                               
-                                                                                                                                                       
     def run(self):                                                                                                                                     
         # self.print_schedules()                                                                                                                  
         if not self.current_schedule:                                                                                                              
@@ -75,7 +74,8 @@ class FarmScheduler():
                                                                                                                                                        
 class State:                                                                                                                                           
     def __init__(self, debug=True):                                                                                                                    
-        self.debug = debug                                                                                                                             
+        self.debug = debug
+        self.selector_off_counter = 0                                                                                                                             
                                                                                                                                                        
     def execute(self, schedule):                                                                                                                       
         raise NotImplementedError                                                                                                                      
@@ -138,7 +138,11 @@ class Selector1Off(State):
         PHYSIC.setActuators(AREA1,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
             print(">> SELECTOR1 STATE - Complete")                                                                                                           
-        return Selector2Off(debug=self.debug)
+        self.selector_off_counter += 1
+        if self.selector_off_counter >= 2:
+            return PumpOutOff(debug=self.debug)
+        else:
+            return Selector2Off(debug=self.debug)
     
 class Selector2On(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
@@ -152,7 +156,11 @@ class Selector2Off(State):
         PHYSIC.setActuators(AREA2,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
             print(">> SELECTOR2 STATE - Complete")                                                                                                           
-        return Selector3Off(debug=self.debug)
+        self.selector_off_counter += 1
+        if self.selector_off_counter >= 2:
+            return PumpOutOff(debug=self.debug)
+        else:
+            return Selector3Off(debug=self.debug)
     
 class Selector3On(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
@@ -166,7 +174,11 @@ class Selector3Off(State):
         PHYSIC.setActuators(AREA3,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
             print(">> SELECTOR3 STATE - Complete")                                                                                                           
-        return IdleState(debug=self.debug)
+        self.selector_off_counter += 1
+        if self.selector_off_counter >= 2:
+            return PumpOutOff(debug=self.debug)
+        else:
+            return IdleState(debug=self.debug)
                                                                                                                                                         
 class PumpInState(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
@@ -182,7 +194,7 @@ class PumpOutOn(State):
     def execute(self, schedule):                                                                                                                       
         PHYSIC.setActuators(PUMPOUT,"ON")                                                                                                              
         setTimer(0, int(schedule['pump-out']))                                                                                                                                                                                                               
-        return PumpOutOff(debug=self.debug)
+        return Selector1Off(debug=self.debug)
                                                                                                                  
 class PumpOutOff(State):                                                                                                                             
     def execute(self, schedule):                                                                                                                                                                                                                              
