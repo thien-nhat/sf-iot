@@ -75,8 +75,9 @@ class Physic:
     def setActuators(self, ID, state):                                                                                                                 
         """Sends a command to set the state of an actuator (relay) based on its ID."""                                                                 
         command_key = f'relay{ID}_{"ON" if state else "OFF"}'                                                                                          
-        command_data = self.RS485_actuartors_format.get(command_key)                                                                                   
-        print("Command key",command_data)                                                                                                              
+        command_data = self.RS485_actuartors_format.get(command_key)
+        print("Command key",command_key)                                                                                                                                                                                                 
+        print("Command data",command_data)                                                                                                              
         self.ser.write(command_data)  # Sends the command data to the actuator                                                                         
         # print(self.serial_read_data())                                                                                                               
                                                                                                                                                        

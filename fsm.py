@@ -39,22 +39,6 @@ class FarmScheduler():
         self.current_state = IdleState(debug=self.debug)                                                                                               
                                                                                                                                                        
     def run(self):                                                                                                                                     
-        # while True:                                                                                                                                    
-        #     self.print_schedules()                                                                                                                     
-        #     if not self.current_schedule:                                                                                                              
-        #         self.current_schedule = self.check_schedule()                                                                                          
-        #         if not self.current_schedule:                                                                                                          
-        #             time.sleep(1)  # Sleep briefly to avoid busy waiting                                                                               
-        #             continue                                                                                                                           
-                                                                                                                                                       
-        #     self.current_state = self.current_state.execute(self.current_schedule)                                                                     
-        #     if isinstance(self.current_state, IdleState) and self.current_schedule['next-cycle'] <= 0:                                                 
-        #         self.schedules.pop(0)                                                                                                                  
-        #         print("Cycle complete, checking for new schedules.")                                                                                   
-        #         self.current_schedule = None                                                                                                           
-        #         break                                                                                                                                  
-                                                                                                                                                       
-        #     time.sleep(1)  # Main loop tick rate
         self.print_schedules()                                                                                                                  
         if not self.current_schedule:                                                                                                              
             self.current_schedule = self.check_schedule()                                                                                          
