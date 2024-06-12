@@ -111,9 +111,11 @@ class Mixer1State(State):
                                                                                                                                                        
 class Mixer2State(State):                                                                                                                              
     def execute(self, schedule):                                                                                                                       
-        PHYSIC.setActuators(MIXER2,"ON")                                                                                                               
+        PHYSIC.setActuators(MIXER2,"ON")
+        print("MIXER2 ON in Mixer2State")                                                                                                               
         setTimer(0, int(schedule['mixer2']))                                                                                                           
-        self.wait_for_timer(0)                                                                                                                         
+        self.wait_for_timer(0)
+        print("MIXER2 OFF in Mixer2State")                                                                                                                                                                                                                                        
         PHYSIC.setActuators(MIXER2,"OFF")                                                                                                              
         if self.debug:                                                                                                                                 
             print("MIXER2 STATE - Complete")                                                                                                           
