@@ -58,7 +58,7 @@ def data_callback(feed_id, payload):
         if isinstance(payload, dict):                                                                                                                  
             new_schedule = payload                                                                                                                     
 
-            required_keys = {"next-cycle", "mixer1", "mixer2", "mixer3", "selector", "pump-in", "pump-out", "time-start", "active"}                    
+            required_keys = {"next-cycle", "mixer1", "mixer2", "mixer3", "selector1", "selector2","selector3", "pump-in", "pump-out", "time-start", "active"}                    
             if required_keys.issubset(new_schedule.keys()):                                                                                            
                 time_start = new_schedule["time-start"]                                                                                                
                 if len(time_start) == 4:                                                                                                               
