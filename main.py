@@ -16,7 +16,7 @@ state = {
     "selector": None,                                                                                                                                  
     "pump-in": 2,                                                                                                                                      
     "pump-out": 2,                                                                                                                                     
-    "time-start": "11:23",                                                                                                                             
+    "time-start": "14:23",                                                                                                                             
     "active": 1,                                                                                                                                       
 }                                                                                                                                                      
                                                                                                                                                        
@@ -48,7 +48,8 @@ def get_time_difference_in_minutes(schedule):
     return time_difference.total_seconds() / 60
                                                                                                                                                    
 def data_callback(feed_id, payload):                                                                                                                   
-    key = feed_id                                                                                                                                      
+    key = feed_id
+    global sched_active                                                                                                                                      
     print("Received payload:", payload)                                                                                                                
 
     try:                                                                                                                                               
