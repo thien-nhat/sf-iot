@@ -5,6 +5,31 @@ import json
 import time                                                                                                                                            
                                                                                                                                                        
 PHYSIC = Physic()                                                                                                                                      
+
+def remove_duplicate_schedules(schedules):
+    seen = set()
+    unique_schedules = []
+
+    for schedule in schedules:
+        time_start = schedule['time-start']
+
+        if time_start not in seen:
+            seen.add(time_start)
+            unique_schedules.append(schedule)
+
+    return unique_schedules
+
+# Define a function to calculate the time difference in minutes
+def get_time_difference_in_minutes(schedule):
+    # Get the current time
+    current_time = datetime.now()
+    current_time_str = current_time.strftime("%H:%M")
+    current_time = datetime.strptime(current_time_str, "%H:%M")
+    # Get the time-start value from the schedule and convert it to a datetime object
+    time_start = datetime.strptime(schedule['time-start'], "%H:%M")
+    # Calculate the difference between the current time and the time-start value
+    time_difference = time_start - current_time
+    return time_difference.total_seconds() / 60
                                                                                                                                                        
 class FarmScheduler():                                                                                                                                 
     def __init__(self, debug=True):                                                                                                                    
@@ -48,7 +73,15 @@ class FarmScheduler():
         for idx, schedule in enumerate(self.schedules, start=1):                                                                                       
             print(f"Schedule {idx}: {schedule}")                                                                                                       
     def add_schedule(self, schedule):                                                                                                                  
-        self.schedules.append(schedule)                                                                                                                
+        self.schedules.append(schedule)
+        current_time = datetime.now()
+        print("Current time:", current_time)
+        self.schedules.sort(key=get_time_difference_in_minutes)
+        self.schedules = remove_duplicate_schedules(self.schedules)
+        print("New schedule added:", schedule)
+        print("# Print the sorted sched_active taht already in FSM")
+        for schedule in self.schedules:
+            print("Schedule:", schedule)                                                                                                                
                                                                                                                                                        
     def check_schedule(self):                                                                                                                          
         # Find a schedule with start time in the future                                                                                                

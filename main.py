@@ -22,30 +22,30 @@ state = {
                                                                                                                                                        
 sched_active = []
 
-def remove_duplicate_schedules(schedules):
-    seen = set()
-    unique_schedules = []
+# def remove_duplicate_schedules(schedules):
+#     seen = set()
+#     unique_schedules = []
 
-    for schedule in schedules:
-        time_start = schedule['time-start']
+#     for schedule in schedules:
+#         time_start = schedule['time-start']
 
-        if time_start not in seen:
-            seen.add(time_start)
-            unique_schedules.append(schedule)
+#         if time_start not in seen:
+#             seen.add(time_start)
+#             unique_schedules.append(schedule)
 
-    return unique_schedules
+#     return unique_schedules
 
-# Define a function to calculate the time difference in minutes
-def get_time_difference_in_minutes(schedule):
-    # Get the current time
-    current_time = datetime.now()
-    current_time_str = current_time.strftime("%H:%M")
-    current_time = datetime.strptime(current_time_str, "%H:%M")
-    # Get the time-start value from the schedule and convert it to a datetime object
-    time_start = datetime.strptime(schedule['time-start'], "%H:%M")
-    # Calculate the difference between the current time and the time-start value
-    time_difference = time_start - current_time
-    return time_difference.total_seconds() / 60
+# # Define a function to calculate the time difference in minutes
+# def get_time_difference_in_minutes(schedule):
+#     # Get the current time
+#     current_time = datetime.now()
+#     current_time_str = current_time.strftime("%H:%M")
+#     current_time = datetime.strptime(current_time_str, "%H:%M")
+#     # Get the time-start value from the schedule and convert it to a datetime object
+#     time_start = datetime.strptime(schedule['time-start'], "%H:%M")
+#     # Calculate the difference between the current time and the time-start value
+#     time_difference = time_start - current_time
+#     return time_difference.total_seconds() / 60
                                                                                                                                                    
 def data_callback(feed_id, payload):                                                                                                                   
     key = feed_id
@@ -64,14 +64,14 @@ def data_callback(feed_id, payload):
 
                 # Thêm lịch trình mới vào FarmScheduler                                                                                                
                 sched_active.append(new_schedule)
-                current_time = datetime.now()
-                print("Current time:", current_time)
-                sched_active.sort(key=get_time_difference_in_minutes)
-                sched_active = remove_duplicate_schedules(sched_active)
-                print("New schedule added:", new_schedule)
-                print("# Print the sorted sched_active")
-                for schedule in sched_active:
-                    print("Schedule:", schedule)
+                # current_time = datetime.now()
+                # print("Current time:", current_time)
+                # sched_active.sort(key=get_time_difference_in_minutes)
+                # sched_active = remove_duplicate_schedules(sched_active)
+                # print("New schedule added:", new_schedule)
+                # print("# Print the sorted sched_active")
+                # for schedule in sched_active:
+                #     print("Schedule:", schedule)
                                                                                                          
             else:                                                                                                                                      
                 print("Invalid schedule format:", new_schedule)                                                                                        
@@ -95,13 +95,13 @@ def main_loop():
             print(state)                                                                                                                               
             state["active"] = 0  # Reset the active flag  
                                                                                                      
-        print("# Print the RELOAD sched_active")
+        print("# Print the sched_active arr")
         for schedule in sched_active:
-            print("Schedule:", schedule)                                                                                                                                              
+            print("Schedule:", schedule)                                                                                                                                           
         for schedule in sched_active:                                                                                                                  
             start_sched.add_schedule(schedule)                                                                                                         
-            if start_sched.run():                                                                                                                          
-                sched_active.remove(schedule)                                                                                                              
+            start_sched.run()                                                                                                                          
+            sched_active.remove(schedule)                                                                                                              
                                                                                                                                                        
         time.sleep(1)                                                                                                                                  
                                                                                                                                                        
