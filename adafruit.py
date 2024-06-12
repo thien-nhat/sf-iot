@@ -16,10 +16,7 @@ from rs485 import *
                                                                                                                                                        
 #from adafruit import *                                                                                                                                
                                                                                                                                                        
-class Adafruit_MQTT:                                                                                                                                   
-    # AIO_FEED_IDs = ["cambien1", "cambien2"]                                                                                                          
-    # AIO_USERNAME = "robotanh"                                                                                                                        
-    # AIO_KEY = ""                                                                                                                                     
+class Adafruit_MQTT:                                                                                                                                                                                                                                                                      
     AIO_FEED_IDs = [                                                                                                                                   
     "mixer1",                                                                                                                                          
     "mixer2",                                                                                                                                          

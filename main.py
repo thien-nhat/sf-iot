@@ -64,14 +64,6 @@ def data_callback(feed_id, payload):
 
                 # Thêm lịch trình mới vào FarmScheduler                                                                                                
                 sched_active.append(new_schedule)
-                # current_time = datetime.now()
-                # print("Current time:", current_time)
-                # sched_active.sort(key=get_time_difference_in_minutes)
-                # sched_active = remove_duplicate_schedules(sched_active)
-                # print("New schedule added:", new_schedule)
-                # print("# Print the sorted sched_active")
-                # for schedule in sched_active:
-                #     print("Schedule:", schedule)
                                                                                                          
             else:                                                                                                                                      
                 print("Invalid schedule format:", new_schedule)                                                                                        
