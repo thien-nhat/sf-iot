@@ -83,7 +83,8 @@ def data_callback(feed_id, payload):
                                                                                                                                                        
                                                                                                                                                        
 def main_loop():                                                                                                                                       
-    start_sched = fsm.FarmScheduler()                                                                                                                  
+    start_sched = fsm.FarmScheduler()  
+    global sched_active                                                                                                                
     while True:                                                                                                                                        
         if state["active"] == 1:                                                                                                                       
             sched_active.append(state.copy())                                                                                                          
