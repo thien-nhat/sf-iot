@@ -207,7 +207,7 @@ class PumpOutOff(State):
         PHYSIC.setActuators(PUMPOUT,"OFF")                                                                                                             
         if self.debug:                                                                                                                                 
             print(">> PUMP OUT STATE - Complete")                                                                                                         
-        return Selector1Off(debug=self.debug)                                                                                                                                                         
+        return Selector3Off(debug=self.debug)                                                                                                                                                         
                                                                                                                                                        
                                                                                                                                                        
 def convert_schedule_json_to_dict(json_data):                                                                                                          
