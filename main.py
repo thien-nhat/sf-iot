@@ -69,6 +69,9 @@ def data_callback(feed_id, payload):
                 sched_active.sort(key=get_time_difference_in_minutes)
                 sched_active = remove_duplicate_schedules(sched_active)
                 print("New schedule added:", new_schedule)
+                print("# Print the sorted sched_active")
+                for schedule in sched_active:
+                    print("Schedule:", schedule)
                                                                                                          
             else:                                                                                                                                      
                 print("Invalid schedule format:", new_schedule)                                                                                        
@@ -97,8 +100,8 @@ def main_loop():
             print("Schedule:", schedule)                                                                                                                                              
         for schedule in sched_active:                                                                                                                  
             start_sched.add_schedule(schedule)                                                                                                         
-            start_sched.run()                                                                                                                          
-            sched_active.remove(schedule)                                                                                                              
+            if start_sched.run():                                                                                                                          
+                sched_active.remove(schedule)                                                                                                              
                                                                                                                                                        
         time.sleep(1)                                                                                                                                  
                                                                                                                                                        
